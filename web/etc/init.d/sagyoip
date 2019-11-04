@@ -1,0 +1,47 @@
+#!/bin/sh
+
+### BEGIN INIT INFO
+# Provides:          sagyoip
+# Required-Start:    $local_fs $network
+# Required-Stop:     $local_fs
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Start sagyoip server
+### END INIT INFO
+
+DAEMON_NAME=sagyoip
+DAEMON=/usr/local/bin/sagyoip
+PIDFILE=/var/run/sagyoip.pid
+DAEMON_ARGS=
+
+
+# Carry out specific functions when asked to by the system
+case "$1" in
+  start)
+    echo "Starting ${DAEMON_NAME}..."
+    start-stop-daemon --start --quiet --background --exec $DAEMON --make-pidfile --pidfile $PIDFILE -- $DAEMON_ARGS
+    result=$?
+    if [ $result != "0" ]; then
+      pid=`cat $PIDFILE`
+      echo "${DAEMON_NAME} is already running. (pid=${pid})"
+      exit 1
+    fi
+    ;;
+  stop)
+    echo "Stopping ${DAEMON_NAME}..."
+    start-stop-daemon --stop --quiet --pidfile $PIDFILE
+    result=$?
+    if [ $result != "0" ]; then
+      echo "${DAEMON_NAME} is not running. (check $PIDFILE)."
+      exit 1
+    fi
+    rm -f $PIDFILE
+    sleep 2
+    ;;
+  *)
+    echo "Usage: /etc/init.d/${DAEMON_NAME} {start|stop}"
+    exit 1
+    ;;
+esac
+
+exit 0
