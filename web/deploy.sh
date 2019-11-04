@@ -2,7 +2,7 @@
 
 SCRIPT_DIR=$(cd $(dirname $0); pwd)
 APT_NGINX_NAME=nginx
-APT_CERTBOT_NAME=certbot
+CERTBOT_CMD=certbot-auto
 ./upgrade.sh
 
 #
@@ -13,8 +13,9 @@ if [ $(dpkg-query -W -f='${Status}' $APT_NGINX_NAME 2>/dev/null | grep -c "ok in
   apt install $APT_NGINX_NAME -y
 fi
 
-if [ $(dpkg-query -W -f='${Status}' $APT_CERTBOT_NAME 2>/dev/null | grep -c "ok installed") -eq 0 ]; then
-  apt install $APT_CERTBOT_NAME -y
+if type $CERTBOT_CMD > /dev/null 2>&1; then
+  wget https://dl.eff.org/certbot-auto -O /usr/local/bin/$CERTBOT_CMD
+  chmod a+x /usr/local/bin/$CERTBOT_CMD
 fi
 
 #
