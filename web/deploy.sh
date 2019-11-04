@@ -18,7 +18,7 @@ if [ $(dpkg-query -W -f='${Status}' $APT_JQ_NAME 2>/dev/null | grep -c "ok insta
   apt install $APT_JQ_NAME -y
 fi
 
-if type $CERTBOT_CMD > /dev/null 2>&1; then
+if !(type $CERTBOT_CMD > /dev/null 2>&1); then
   wget https://dl.eff.org/certbot-auto -O /usr/local/bin/$CERTBOT_CMD
   chmod a+x /usr/local/bin/$CERTBOT_CMD
 fi
