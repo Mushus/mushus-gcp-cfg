@@ -6,8 +6,9 @@
 ## Install nginx
 #
 
-if [ $(dpkg-query -W -f='${Status}' nano 2>/dev/null | grep -c "ok installed") -eq 0 ]; then
-  apt install nginx -y
+APT_NGINX_NAME=nginx
+if [ $(dpkg-query -W -f='${Status}' $APT_NGINX_NAME 2>/dev/null | grep -c "ok installed") -eq 0 ]; then
+  apt install $APT_NGINX_NAME -y
 fi
 
 #
