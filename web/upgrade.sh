@@ -6,3 +6,4 @@
 
 apt update -y
 apt upgrade -y
+sudo apt autoremove -y

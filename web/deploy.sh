@@ -2,6 +2,7 @@
 
 SCRIPT_DIR=$(cd $(dirname $0); pwd)
 APT_NGINX_NAME=nginx
+APT_JQ_NAME=jq
 CERTBOT_CMD=certbot-auto
 ./upgrade.sh
 
@@ -11,6 +12,10 @@ CERTBOT_CMD=certbot-auto
 
 if [ $(dpkg-query -W -f='${Status}' $APT_NGINX_NAME 2>/dev/null | grep -c "ok installed") -eq 0 ]; then
   apt install $APT_NGINX_NAME -y
+fi
+
+if [ $(dpkg-query -W -f='${Status}' $APT_JQ_NAME 2>/dev/null | grep -c "ok installed") -eq 0 ]; then
+  apt install $APT_JQ_NAME -y
 fi
 
 if type $CERTBOT_CMD > /dev/null 2>&1; then
