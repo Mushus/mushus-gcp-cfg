@@ -1,6 +1,6 @@
 #!/bin/bash
 
-upgrade.sh
+./upgrade.sh
 
 #
 ## Install nginx
