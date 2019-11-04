@@ -1,16 +1,20 @@
 #!/bin/bash
 
 SCRIPT_DIR=$(cd $(dirname $0); pwd)
-
+APT_NGINX_NAME=nginx
+APT_CERTBOT_NAME=certbot
 ./upgrade.sh
 
 #
 ## Install nginx
 #
 
-APT_NGINX_NAME=nginx
 if [ $(dpkg-query -W -f='${Status}' $APT_NGINX_NAME 2>/dev/null | grep -c "ok installed") -eq 0 ]; then
   apt install $APT_NGINX_NAME -y
+fi
+
+if [ $(dpkg-query -W -f='${Status}' $APT_CERTBOT_NAME 2>/dev/null | grep -c "ok installed") -eq 0 ]; then
+  apt install $APT_CERTBOT_NAME
 fi
 
 #
@@ -36,6 +40,7 @@ cp -f ${SCRIPT_DIR}/etc/init.d/sagyoipe /etc/init.d/sagyoipe
 #
 ## Install releases
 #
+
 DOWNLOAD_URL=$(curl https://api.github.com/repos/Mushus/sagyoipe/releases/latest | jq -r '.assets[]|select(.name|test("sagyoipe-linux-amd64")).browser_download_url')
 wget -q -O /usr/local/bin/sagyoipe $DOWNLOAD_URL
 chmod 755 /usr/local/bin/sagyoipe

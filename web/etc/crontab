@@ -1,1 +1,2 @@
 23 4 * * * /usr/local/mushus-gcp-cfg/web/upgrade.sh
+00 0 21 * * certbot certonly --webroot -n --agree-tos -w /var/www/sagyoipe.mushus.net/letsencrypt/ -d sagyoipe.mushus.net
