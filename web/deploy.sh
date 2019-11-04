@@ -14,7 +14,7 @@ if [ $(dpkg-query -W -f='${Status}' $APT_NGINX_NAME 2>/dev/null | grep -c "ok in
 fi
 
 if [ $(dpkg-query -W -f='${Status}' $APT_CERTBOT_NAME 2>/dev/null | grep -c "ok installed") -eq 0 ]; then
-  apt install $APT_CERTBOT_NAME
+  apt install $APT_CERTBOT_NAME -y
 fi
 
 #
