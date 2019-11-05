@@ -1,2 +1,2 @@
 23 4 * * * /usr/local/mushus-gcp-cfg/web/upgrade.sh
-00 0 21 * * certbot-auto renew
+00 0 21 * * certbot-auto renew -q

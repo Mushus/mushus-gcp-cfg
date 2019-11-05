@@ -55,6 +55,7 @@ service nginx restart
 #
 
 cp -f ${SCRIPT_DIR}/etc/init.d/sagyoipe /etc/init.d/sagyoipe
+chmod 775 /etc/init.d/sagyoipe
 
 #
 ## Install releases
