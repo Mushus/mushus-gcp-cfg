@@ -1,17 +1,17 @@
 #!/bin/sh
 
 ### BEGIN INIT INFO
-# Provides:          sagyoip
+# Provides:          sagyoipe
 # Required-Start:    $local_fs $network
 # Required-Stop:     $local_fs
 # Default-Start:     2 3 4 5
 # Default-Stop:      0 1 6
-# Short-Description: Start sagyoip server
+# Short-Description: Start sagyoipe server
 ### END INIT INFO
 
-DAEMON_NAME=sagyoip
-DAEMON=/usr/local/bin/sagyoip
-PIDFILE=/var/run/sagyoip.pid
+DAEMON_NAME=sagyoipe
+DAEMON=/usr/local/bin/sagyoipe
+PIDFILE=/var/run/sagyoipe.pid
 DAEMON_ARGS=
 
 

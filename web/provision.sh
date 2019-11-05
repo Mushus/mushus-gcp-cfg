@@ -7,6 +7,12 @@ CERTBOT_CMD=certbot-auto
 ./upgrade.sh
 
 #
+##
+#
+
+mkdir -p /var/www/sagyoipe.mushus.net
+
+#
 ## Install nginx
 #
 
@@ -61,4 +67,5 @@ DOWNLOAD_URL=$( \
 curl -s -o /usr/local/bin/sagyoipe $DOWNLOAD_URL
 chmod 755 /usr/local/bin/sagyoipe
 
-service seagyoip restart
+service sagyoipe stop && :
+service sagyoipe start
