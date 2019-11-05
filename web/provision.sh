@@ -21,6 +21,13 @@ fi
 if !(type $CERTBOT_CMD > /dev/null 2>&1); then
   curl -s -o /usr/local/bin/$CERTBOT_CMD https://dl.eff.org/certbot-auto
   chmod a+x /usr/local/bin/$CERTBOT_CMD
+  certbot-auto certonly \
+    --non-interactive
+    --agree-tos
+    --email mushus.wynd@gmail.com
+    --webroot
+    --webroot-path /var/www/sagyoipe.mushus.net
+    --domain sagyoipe.mushus.net
 fi
 
 #
@@ -47,7 +54,10 @@ cp -f ${SCRIPT_DIR}/etc/init.d/sagyoipe /etc/init.d/sagyoipe
 ## Install releases
 #
 
-DOWNLOAD_URL=$(curl -s https://api.github.com/repos/Mushus/sagyoipe/releases/latest | jq -r '.assets[]|select(.name|test("sagyoipe-linux-amd64")).browser_download_url')
+DOWNLOAD_URL=$( \
+  curl -s https://api.github.com/repos/Mushus/sagyoipe/releases/latest | \
+  jq -r '.assets[]|select(.name|test("sagyoipe-linux-amd64")).browser_download_url' \
+)
 curl -s -o /usr/local/bin/sagyoipe $DOWNLOAD_URL
 chmod 755 /usr/local/bin/sagyoipe
 
