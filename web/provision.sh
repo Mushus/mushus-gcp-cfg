@@ -7,7 +7,7 @@ CERTBOT_CMD=certbot-auto
 ./upgrade.sh
 
 #
-##
+## create dirs
 #
 
 mkdir -p /var/www/sagyoipe.mushus.net
@@ -25,17 +25,21 @@ if [ $(dpkg-query -W -f='${Status}' $APT_JQ_NAME 2>/dev/null | grep -c "ok insta
   apt install $APT_JQ_NAME -y
 fi
 
-if !(type $CERTBOT_CMD > /dev/null 2>&1); then
-  curl -s -L -o /usr/local/bin/$CERTBOT_CMD https://dl.eff.org/certbot-auto
-  chmod a+x /usr/local/bin/$CERTBOT_CMD
-  certbot-auto certonly \
-    --non-interactive \
-    --agree-tos \
-    --email mushus.wynd@gmail.com \
-    --webroot \
-    --webroot-path /var/www/sagyoipe.mushus.net \
-    --domain sagyoipe.mushus.net
-fi
+#
+## Install Sagyoipe latest releases
+#
+
+DOWNLOAD_URL=$( \
+  curl -s https://api.github.com/repos/Mushus/sagyoipe/releases/latest | \
+  jq -r '.assets[]|select(.name|test("sagyoipe-linux-amd64")).browser_download_url' \
+)
+curl -s -L -o /usr/local/bin/sagyoipe $DOWNLOAD_URL
+chmod 755 /usr/local/bin/sagyoipe
+
+cp -f ${SCRIPT_DIR}/etc/systemd/system/sagyoipe.service /etc/systemd/system/sagyoipe.service
+systemctl enable sagyoipe
+
+service sagyoipe restart
 
 #
 ## Update nginx config file
@@ -52,23 +56,17 @@ cp -f ${SCRIPT_DIR}/etc/nginx/nginx.conf /etc/nginx/nginx.conf
 service nginx restart
 
 #
-## Update sagyoipe service
+## Install certbot-auto
 #
 
-cp -f ${SCRIPT_DIR}/etc/systemd/system/sagyoipe.service /etc/systemd/system/sagyoipe.service
-systemctl enable sagyoipe
-systemctl restart sagyoipe
-
-#
-## Install releases
-#
-
-DOWNLOAD_URL=$( \
-  curl -s https://api.github.com/repos/Mushus/sagyoipe/releases/latest | \
-  jq -r '.assets[]|select(.name|test("sagyoipe-linux-amd64")).browser_download_url' \
-)
-curl -s -L -o /usr/local/bin/sagyoipe $DOWNLOAD_URL
-chmod 755 /usr/local/bin/sagyoipe
-
-service sagyoipe stop && :
-service sagyoipe start
+if !(type $CERTBOT_CMD > /dev/null 2>&1); then
+  curl -s -L -o /usr/local/bin/$CERTBOT_CMD https://dl.eff.org/certbot-auto
+  chmod a+x /usr/local/bin/$CERTBOT_CMD
+  certbot-auto certonly \
+    --non-interactive \
+    --agree-tos \
+    --email mushus.wynd@gmail.com \
+    --webroot \
+    --webroot-path /var/www/sagyoipe.mushus.net \
+    --domain sagyoipe.mushus.net
+fi
