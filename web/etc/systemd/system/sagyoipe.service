@@ -1,7 +1,7 @@
 [Unit]
 Description = Sagyoipe - Minimal screen sharing web service
 
-[Services]
+[Service]
 ExecStart = sagyoipe -logfile /var/log/sagyoipe/sagyoipe.log
 Type = simple
 Restart = alweys
