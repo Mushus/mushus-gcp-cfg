@@ -82,6 +82,7 @@ fi
 #
 
 NEED_RESTART=false
+
 if [ -e /etc/nginx/sites-enabled/dummy.sagyoipe.mushus.net ]; then
   unlink /etc/nginx/sites-available/dummy.sagyoipe.mushus.net /etc/nginx/sites-enabled/dummy.sagyoipe.mushus.net
   ln -s /etc/nginx/sites-available/sagyoipe.mushus.net /etc/nginx/sites-enabled/sagyoipe.mushus.net
