@@ -55,8 +55,7 @@ service nginx restart
 ## Update startup script
 #
 
-cp -f ${SCRIPT_DIR}/etc/init.d/sagyoipe /etc/init.d/sagyoipe
-chmod 775 /etc/init.d/sagyoipe
+cp -f ${SCRIPT_DIR}/etc/systemd/system/sagyoipe.service
 
 #
 ## Install releases
