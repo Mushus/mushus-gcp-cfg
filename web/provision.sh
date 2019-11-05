@@ -4,19 +4,24 @@ SCRIPT_DIR=$(cd $(dirname $0); pwd)
 APT_NGINX_NAME=nginx
 APT_JQ_NAME=jq
 CERTBOT_CMD=certbot-auto
+
+echo "[UPGRADE]"
 ./upgrade.sh
 
 #
 ## create dirs
 #
 
+echo "[CREATE DIR]"
 mkdir -p /var/www/sagyoipe.mushus.net
 mkdir -p /var/log/sagyoipe
 mkdir -p /etc/letsencrypt/live/sagyoipe.mushus.net/
 
 #
-## Install nginx
+## Install dependencies
 #
+
+echo "[INSTALL DEPENDENCIES]"
 
 if [ $(dpkg-query -W -f='${Status}' $APT_NGINX_NAME 2>/dev/null | grep -c "ok installed") -eq 0 ]; then
   apt install $APT_NGINX_NAME -y
@@ -29,6 +34,8 @@ fi
 #
 ## Install Sagyoipe latest releases
 #
+
+echo "[INSTALL SAGYOIPE]"
 
 DOWNLOAD_URL=$( \
   curl -s https://api.github.com/repos/Mushus/sagyoipe/releases/latest | \
@@ -45,6 +52,8 @@ service sagyoipe restart
 #
 ## Update nginx config file
 #
+
+echo "[UPDATE NGINX CONFIG]"
 
 rm -rf /etc/nginx/sites-available/*
 rm -rf /etc/nginx/sites-enabled/*
@@ -65,6 +74,8 @@ service nginx restart
 ## Install certbot-auto
 #
 
+echo "[INSTALL CERTBOT]"
+
 if !(type $CERTBOT_CMD > /dev/null 2>&1); then
   curl -s -L -o /usr/local/bin/$CERTBOT_CMD https://dl.eff.org/certbot-auto
   chmod a+x /usr/local/bin/$CERTBOT_CMD
@@ -80,6 +91,8 @@ fi
 #
 ## Update nginx config file
 #
+
+echo "[RESTART NGINX]"
 
 NEED_RESTART=false
 
