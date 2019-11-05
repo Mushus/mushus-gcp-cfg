@@ -52,10 +52,12 @@ cp -f ${SCRIPT_DIR}/etc/nginx/nginx.conf /etc/nginx/nginx.conf
 service nginx restart
 
 #
-## Update startup script
+## Update sagyoipe service
 #
 
 cp -f ${SCRIPT_DIR}/etc/systemd/system/sagyoipe.service /etc/systemd/system/sagyoipe.service
+systemctl enable sagyoipe
+systemctl restart sagyoipe
 
 #
 ## Install releases
