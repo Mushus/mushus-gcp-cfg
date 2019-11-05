@@ -22,11 +22,11 @@ if !(type $CERTBOT_CMD > /dev/null 2>&1); then
   curl -s -o /usr/local/bin/$CERTBOT_CMD https://dl.eff.org/certbot-auto
   chmod a+x /usr/local/bin/$CERTBOT_CMD
   certbot-auto certonly \
-    --non-interactive
-    --agree-tos
-    --email mushus.wynd@gmail.com
-    --webroot
-    --webroot-path /var/www/sagyoipe.mushus.net
+    --non-interactive \
+    --agree-tos \
+    --email mushus.wynd@gmail.com \
+    --webroot \
+    --webroot-path /var/www/sagyoipe.mushus.net \
     --domain sagyoipe.mushus.net
 fi
 
