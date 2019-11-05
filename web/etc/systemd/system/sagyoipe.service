@@ -1,0 +1,10 @@
+[Unit]
+Description = Sagyoipe - Minimal screen sharing web service
+
+[Services]
+ExecStart = sagyoipe -logfile /var/log/sagyoipe/sagyoipe.log
+Type = simple
+Restart = alweys
+
+[Install]
+WantedBy = multi-user.target

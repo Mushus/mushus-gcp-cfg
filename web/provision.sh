@@ -11,6 +11,7 @@ CERTBOT_CMD=certbot-auto
 #
 
 mkdir -p /var/www/sagyoipe.mushus.net
+mkdir -p /var/log/sagyoipe
 
 #
 ## Install nginx
@@ -25,7 +26,7 @@ if [ $(dpkg-query -W -f='${Status}' $APT_JQ_NAME 2>/dev/null | grep -c "ok insta
 fi
 
 if !(type $CERTBOT_CMD > /dev/null 2>&1); then
-  curl -s -o /usr/local/bin/$CERTBOT_CMD https://dl.eff.org/certbot-auto
+  curl -s -L -o /usr/local/bin/$CERTBOT_CMD https://dl.eff.org/certbot-auto
   chmod a+x /usr/local/bin/$CERTBOT_CMD
   certbot-auto certonly \
     --non-interactive \
@@ -65,7 +66,7 @@ DOWNLOAD_URL=$( \
   curl -s https://api.github.com/repos/Mushus/sagyoipe/releases/latest | \
   jq -r '.assets[]|select(.name|test("sagyoipe-linux-amd64")).browser_download_url' \
 )
-curl -s -o /usr/local/bin/sagyoipe $DOWNLOAD_URL
+curl -s -L -o /usr/local/bin/sagyoipe $DOWNLOAD_URL
 chmod 755 /usr/local/bin/sagyoipe
 
 service sagyoipe stop && :
